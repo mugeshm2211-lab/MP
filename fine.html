@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nalla Irukkiya? 💖</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: linear-gradient(
+                135deg, #ff758c, #ff7eb3, #a18cd1, #6dd5ed
+            );
+            background-size: 300% 300%;
+            animation: gradient 8s ease infinite;
+            overflow: hidden;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .card {
+            width: 100%;
+            max-width: 430px;
+            padding: 38px 25px;
+            text-align: center;
+            border-radius: 28px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 20px 60px rgba(50, 20, 80, 0.25);
+            backdrop-filter: blur(18px);
+            animation: appear 0.8s ease;
+        }
+
+        @keyframes appear {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .emoji {
+            font-size: 65px;
+            margin-bottom: 12px;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.12); }
+        }
+
+        h1 {
+            color: white;
+            font-size: 30px;
+            margin-bottom: 12px;
+            text-shadow: 0 3px 10px #a63e78;
+        }
+
+        .subtitle {
+            color: white;
+            font-size: 15px;
+            margin-bottom: 28px;
+        }
+
+        input {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid transparent;
+            outline: none;
+            border-radius: 14px;
+            font-size: 16px;
+            text-align: center;
+            color: #702c64;
+            background: rgba(255, 255, 255, 0.92);
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #ff3d91;
+            box-shadow: 0 0 18px #ffb5d8;
+            transform: scale(1.02);
+        }
+
+        input::placeholder {
+            color: #b47aa7;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 18px;
+            padding: 15px;
+            border: none;
+            border-radius: 14px;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            background: linear-gradient(135deg, #ff4b8b, #8e44ad);
+            box-shadow: 0 7px 20px rgba(120, 30, 100, 0.25);
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(120, 30, 100, 0.4);
+        }
+
+        button:active {
+            transform: scale(0.97);
+        }
+
+        #result {
+            display: none;
+            margin-top: 25px;
+            padding: 20px 12px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #7b2869;
+            font-size: 19px;
+            font-weight: bold;
+            line-height: 1.6;
+            animation: appear 0.4s ease;
+            overflow-wrap: anywhere;
+        }
+
+        .hint {
+            color: white;
+            font-size: 12px;
+            margin-top: 22px;
+            opacity: 0.9;
+        }
+
+        .heart {
+            position: fixed;
+            bottom: -30px;
+            font-size: 22px;
+            animation: floatUp 7s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes floatUp {
+            from {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            15% { opacity: 0.8; }
+            to {
+                transform: translateY(-110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+        <div class="emoji">💗</div>
+
+        <h1>NALLA IRUKKIYA?</h1>
+
+        <p class="subtitle">
+            Unmaiya sollanum... 👀✨
+        </p>
+
+        <form id="answerForm">
+            <input
+                type="text"
+                id="answer"
+                placeholder="Un answer inga type pannu..."
+                autocomplete="off"
+                required
+            >
+
+            <button type="submit">
+                SOLLU PAARKALAM 💌
+            </button>
+        </form>
+
+        <div id="result" aria-live="polite"></div>
+
+        <p class="hint">
+            Made with 💖 konjam paasathoda!
+        </p>
+    </div>
+
+    <script>
+        const form = document.getElementById("answerForm");
+        const input = document.getElementById("answer");
+        const result = document.getElementById("result");
+
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const answer = input.value.trim().toLowerCase();
+            let message = "";
+
+            if (
+                answer === "irukken" ||
+                answer === "nalla irukken"
+            ) {
+                message = "SERII 😌💖✨";
+            }
+            else if (
+                answer === "etho" ||
+                answer === "etho irukken"
+            ) {
+                message = "WHY ENNACHU? 🥺🫂💗";
+            }
+            else {
+                message =
+                    "OLUNGA PADHILA SOLLU 😤💕<br>" +
+                    "ILLANA FIRST LETTER AH MATTUM CAPITAL LA KUDU! 🤭";
+            }
+
+            result.style.display = "block";
+            result.innerHTML = message;
+
+            // Re-trigger the result animation
+            result.style.animation = "none";
+            void result.offsetWidth;
+            result.style.animation = "appear 0.4s ease";
+        });
+
+        // Floating hearts background
+        function createHeart() {
+            const heart = document.createElement("div");
+            heart.className = "heart";
+            heart.textContent = ["💗", "💖", "💕", "✨", "🩷"][
+                Math.floor(Math.random() * 5)
+            ];
+
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration =
+                (4 + Math.random() * 5) + "s";
+
+            document.body.appendChild(heart);
+
+            setTimeout(() => heart.remove(), 9000);
+        }
+
+        setInterval(createHeart, 600);
+    </script>
+
+</body>
+</html>

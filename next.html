@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mugesh Relationship 💖</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(
+                135deg,
+                #ff758c,
+                #a18cd1,
+                #6dd5ed
+            );
+            background-size: 300% 300%;
+            animation: gradient 8s ease infinite;
+        }
+
+        @keyframes gradient {
+            0%   { background-position: 0% 50%; }
+            50%  { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 430px;
+            padding: 35px 25px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.92);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            border-radius: 28px;
+            box-shadow: 0 20px 50px rgba(50, 20, 80, 0.25);
+            animation: appear 0.8s ease;
+        }
+
+        @keyframes appear {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .heart {
+            font-size: 55px;
+            animation: beat 1.2s infinite;
+        }
+
+        @keyframes beat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        h1 {
+            margin: 12px 0;
+            font-size: 29px;
+            color: #772ce8;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 14px;
+            border: 2px solid transparent;
+            border-radius: 14px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+
+        .option:hover {
+            transform: translateY(-3px);
+            filter: brightness(1.04);
+        }
+
+        .friend {
+            background: #d8fce7;
+            color: #087443;
+        }
+
+        .lover {
+            background: #ffe0ed;
+            color: #cf1765;
+        }
+
+        .brother {
+            background: #dce9ff;
+            color: #2159bd;
+        }
+
+        .crush {
+            background: #fff0c9;
+            color: #a76100;
+        }
+
+        .option:focus-visible,
+        .reset:focus-visible {
+            outline: 3px solid #772ce8;
+            outline-offset: 3px;
+        }
+
+        #result {
+            display: none;
+            margin-top: 24px;
+            padding: 20px 12px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #fce4ec, #ede7ff);
+            animation: appear 0.5s ease;
+        }
+
+        #result h2 {
+            color: #772ce8;
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        #message {
+            color: #444;
+            font-size: 17px;
+            line-height: 1.6;
+            font-weight: 600;
+        }
+
+        .reset {
+            margin-top: 16px;
+            padding: 11px 22px;
+            border: none;
+            border-radius: 25px;
+            background: #772ce8;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        footer {
+            margin-top: 24px;
+            color: #888;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="container">
+        <div class="heart">💖</div>
+
+        <h1>Hey! Who Are You?</h1>
+
+        <p class="subtitle">
+            Enter your relationship with<br>
+            <strong>Mugesh 😎</strong>
+        </p>
+
+        <div class="options">
+            <button class="option friend"
+                onclick="showResult(1)">
+                🫂 1. Friend
+            </button>
+
+            <button class="option lover"
+                onclick="showResult(2)">
+                ❤️ 2. Lover
+            </button>
+
+            <button class="option brother"
+                onclick="showResult(3)">
+                🛡️ 3. Brother
+            </button>
+
+            <button class="option crush"
+                onclick="showResult(4)">
+                😍 4. Crush
+            </button>
+        </div>
+
+        <section id="result" aria-live="polite">
+            <h2 id="heading">Your Result ✨</h2>
+            <p id="message"></p>
+
+            <button class="reset" onclick="resetResult()">
+                🔄 Try Again
+            </button>
+        </section>
+
+        <footer>
+            Made with 💜 for Mugesh
+        </footer>
+    </main>
+
+    <script>
+        function showResult(relation) {
+            const heading = document.getElementById("heading");
+            const message = document.getElementById("message");
+            const result = document.getElementById("result");
+
+            const responses = {
+                1: {
+                    title: "BEST FRIEND VIBES 🫂",
+                    message: "YOU GOT A GOOD FRIEND!!! 💚"
+                },
+                2: {
+                    title: "LOVE MODE ON ❤️",
+                    message: "YOU GOT A PRECIOUS THING!!! 💖"
+                },
+                3: {
+                    title: "BROTHERHOOD FOREVER 🛡️",
+                    message: "YOU GOT A LOYAL BROTHER!!! 💙"
+                },
+                4: {
+                    title: "AYYOOO! 😍",
+                    message: "AAH KILAMBUNGA!! 😂🔥"
+                }
+            };
+
+            heading.textContent = responses[relation].title;
+            message.textContent = responses[relation].message;
+
+            result.style.display = "block";
+            result.scrollIntoView({
+                behavior: "smooth",
+                block: "nearest"
+            });
+        }
+
+        function resetResult() {
+            document.getElementById("result").style.display = "none";
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,262 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Thank You ❤️</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(
+        -45deg,
+        #12002f,
+        #4a0072,
+        #b0005a,
+        #001f54,
+        #12002f
+    );
+    background-size: 400% 400%;
+    animation: bgColor 10s ease infinite;
+
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+}
+
+@keyframes bgColor {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* THANK YOU text above the heart */
+h1 {
+    position: absolute;
+    top: 10%;
+    width: 100%;
+    text-align: center;
+
+    color: #ffffff;
+    font-size: clamp(28px, 5vw, 45px);
+    letter-spacing: 8px;
+
+    text-shadow:
+        0 0 10px #ff00ff,
+        0 0 25px #ff1493,
+        0 0 45px #ff1493;
+
+    animation: thankGlow 1.5s ease-in-out infinite alternate;
+    z-index: 2;
+}
+
+@keyframes thankGlow {
+    from {
+        opacity: 0.65;
+        transform: scale(0.96);
+        text-shadow: 0 0 10px #ff00ff;
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1.05);
+        text-shadow:
+            0 0 15px #ffffff,
+            0 0 30px #ff1493,
+            0 0 55px #ff00ff;
+    }
+}
+
+h2 {
+    position: absolute;
+    bottom: 10%;
+    width: 100%;
+    text-align: center;
+
+    color: #ffffff;
+    font-size: clamp(16px, 3vw, 22px);
+    letter-spacing: 5px;
+
+    text-shadow:
+        0 0 10px #ff1744,
+        0 0 25px #ff1744;
+
+    animation: footerGlow 1.5s infinite alternate;
+    z-index: 2;
+}
+
+@keyframes footerGlow {
+    from { opacity: 0.6; }
+    to {
+        opacity: 1;
+        text-shadow: 0 0 30px #ff1744;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="heart"></canvas>
+
+<h1>THANK YOU ✨</h1>
+<h2>❤️FRNDS FOREVER ❤️</h2>
+
+<script>
+const canvas = document.getElementById("heart");
+const ctx = canvas.getContext("2d");
+
+let W, H, scale;
+let particles = [];
+let time = 0;
+
+function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+    scale = Math.min(W, H) / 38;
+}
+
+window.addEventListener("resize", resize);
+resize();
+
+function heart(t, s = 1) {
+    return {
+        x: 16 * Math.pow(Math.sin(t), 3) * s,
+        y: -(13 * Math.cos(t)
+           - 5 * Math.cos(2 * t)
+           - 2 * Math.cos(3 * t)
+           - Math.cos(4 * t)) * s
+    };
+}
+
+// Create glowing particles
+for (let i = 0; i < 1800; i++) {
+    particles.push({
+        t: Math.random() * Math.PI * 2,
+        spread: Math.sqrt(Math.random()),
+        speed: 0.002 + Math.random() * 0.012,
+        size: Math.random() * 2 + 0.3,
+        alpha: Math.random() * 0.8 + 0.2,
+        phase: Math.random() * Math.PI * 2
+    });
+}
+
+function drawHeart() {
+    const pulse = 1 + Math.sin(time * 0.045) * 0.035;
+    const s = scale * pulse;
+    const cx = W / 2;
+    const cy = H / 2;
+
+    // Glowing heart outline
+    for (let j = 0; j < 5; j++) {
+        ctx.beginPath();
+
+        for (let i = 0; i <= 300; i++) {
+            const t = i / 300 * Math.PI * 2;
+            const p = heart(t, s * (0.94 + j * 0.018));
+
+            if (i === 0) {
+                ctx.moveTo(cx + p.x, cy + p.y);
+            } else {
+                ctx.lineTo(cx + p.x, cy + p.y);
+            }
+        }
+
+        ctx.closePath();
+        ctx.strokeStyle =
+            `rgba(255, 0, 50, ${0.12 + j * 0.055})`;
+
+        ctx.lineWidth = 1.5 + j * 0.5;
+        ctx.shadowColor = "#ff0055";
+        ctx.shadowBlur = 10 + j * 5;
+        ctx.stroke();
+    }
+
+    // Moving particles inside the heart
+    particles.forEach(p => {
+        p.t += p.speed;
+
+        const edge = heart(p.t, s);
+        const wave = Math.sin(time * 0.025 + p.phase) * 3;
+
+        const x = cx + edge.x * p.spread + wave;
+        const y = cy + edge.y * p.spread;
+
+        ctx.beginPath();
+        ctx.arc(x, y, p.size, 0, Math.PI * 2);
+
+        ctx.fillStyle =
+            `rgba(255, ${Math.floor(Math.random() * 30)}, 60, ${p.alpha})`;
+
+        ctx.shadowColor = "#ff1744";
+        ctx.shadowBlur = 8;
+        ctx.fill();
+    });
+
+    // White dotted border
+    for (let i = 0; i < 85; i++) {
+        const t = i / 85 * Math.PI * 2;
+        const p = heart(t, s * 1.13);
+
+        ctx.beginPath();
+        ctx.arc(cx + p.x, cy + p.y, 1.4, 0, Math.PI * 2);
+
+        ctx.fillStyle = "rgba(255,255,255,0.9)";
+        ctx.shadowColor = "#ffffff";
+        ctx.shadowBlur = 5;
+        ctx.fill();
+    }
+
+    // Center glow
+    const gradient = ctx.createRadialGradient(
+        cx, cy, 0,
+        cx, cy, scale * 5
+    );
+
+    gradient.addColorStop(0, "rgba(255,0,50,0.35)");
+    gradient.addColorStop(1, "rgba(255,0,50,0)");
+
+    ctx.fillStyle = gradient;
+    ctx.fillRect(
+        cx - scale * 5,
+        cy - scale * 5,
+        scale * 10,
+        scale * 10
+    );
+
+    ctx.shadowBlur = 0;
+}
+
+function animate() {
+    // Transparent fill creates smooth glowing trails
+    ctx.fillStyle = "rgba(10, 0, 30, 0.22)";
+    ctx.fillRect(0, 0, W, H);
+
+    drawHeart();
+
+    time++;
+    requestAnimationFrame(animate);
+}
+
+animate();
+</script>
+
+</body>
+</html>
